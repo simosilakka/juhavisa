@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ei voittoa</title>
+<style>
+  :root{
+    --bg-top:#2b2140;
+    --bg-bottom:#120c1e;
+    --puddle:#3a2f57;
+    --text:#f4eefc;
+    --sub:#b9a9d6;
+    --accent:#ffcf5c;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    height:100%;
+    background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    overflow:hidden;
+  }
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    position:relative;
+  }
+
+  .rain span{
+    position:absolute;
+    top:-10%;
+    width:2px;
+    height:14px;
+    background:rgba(180,170,220,0.35);
+    animation:fall linear infinite;
+  }
+  @keyframes fall{
+    to{ transform:translateY(115vh); }
+  }
+
+  .scene{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:0 6vw;
+    animation:rise 0.7s ease-out both;
+  }
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(18px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .cloud{
+    width:70px;
+    height:32px;
+    background:#8479a8;
+    border-radius:40px;
+    margin:0 auto -6px;
+    position:relative;
+    animation:drift 3.5s ease-in-out infinite;
+  }
+  .cloud::before,.cloud::after{
+    content:"";
+    position:absolute;
+    background:#8479a8;
+    border-radius:50%;
+  }
+  .cloud::before{ width:34px; height:34px; top:-16px; left:8px; }
+  .cloud::after{ width:26px; height:26px; top:-12px; left:38px; }
+  @keyframes drift{
+    0%,100%{ transform:translateX(-4px); }
+    50%{ transform:translateX(4px); }
+  }
+
+  .face{
+    width:140px;
+    height:140px;
+    margin:0 auto;
+    border-radius:50%;
+    background:var(--accent);
+    position:relative;
+    box-shadow:0 12px 30px rgba(0,0,0,0.35);
+  }
+  .eye{
+    position:absolute;
+    top:52px;
+    width:12px;
+    height:16px;
+    background:#241a38;
+    border-radius:50%;
+    animation:blink 4.2s infinite;
+  }
+  .eye.left{ left:34px; }
+  .eye.right{ right:34px; }
+  .brow{
+    position:absolute;
+    top:40px;
+    width:18px;
+    height:4px;
+    background:#241a38;
+    border-radius:2px;
+  }
+  .brow.left{ left:26px; transform:rotate(-15deg); }
+  .brow.right{ right:26px; transform:rotate(15deg); }
+  @keyframes blink{
+    0%,92%,100%{ transform:scaleY(1); }
+    95%{ transform:scaleY(0.1); }
+  }
+  .mouth{
+    position:absolute;
+    bottom:34px;
+    left:50%;
+    transform:translateX(-50%);
+    width:46px;
+    height:20px;
+    border:5px solid #241a38;
+    border-bottom:none;
+    border-radius:46px 46px 0 0;
+  }
+
+  .tear{
+    position:absolute;
+    width:8px;
+    height:12px;
+    background:#7fd0ff;
+    border-radius:0 50% 50% 50%;
+    transform:rotate(45deg);
+    top:70px;
+    left:24px;
+    animation:cry 1.8s ease-in infinite;
+    opacity:0;
+  }
+  .tear.two{
+    left:auto;
+    right:24px;
+    animation-delay:0.6s;
+  }
+  @keyframes cry{
+    0%{ opacity:0; top:66px; }
+    15%{ opacity:1; }
+    80%{ opacity:1; top:150px; }
+    100%{ opacity:0; top:160px; }
+  }
+
+  .puddle{
+    width:110px;
+    height:14px;
+    background:var(--puddle);
+    border-radius:50%;
+    margin:14px auto 0;
+    animation:ripple 2.4s ease-in-out infinite;
+  }
+  @keyframes ripple{
+    0%,100%{ transform:scaleX(1); opacity:0.8; }
+    50%{ transform:scaleX(1.15); opacity:1; }
+  }
+
+  h1{
+    margin:28px 0 6px;
+    color:var(--text);
+    font-size:clamp(1.5rem, 5.5vw, 2.6rem);
+    font-weight:800;
+    letter-spacing:-0.01em;
+    line-height:1.15;
+  }
+  p.sub{
+    margin:0;
+    color:var(--sub);
+    font-size:clamp(0.95rem, 3vw, 1.1rem);
+  }
+
+  .badge{
+    display:inline-block;
+    margin-top:22px;
+    padding:6px 16px;
+    border:1px solid rgba(255,207,92,0.4);
+    color:var(--accent);
+    border-radius:999px;
+    font-size:0.8rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="rain" id="rain"></div>
+
+<div class="scene">
+  <div class="cloud"></div>
+  <div class="face">
+    <div class="brow left"></div>
+    <div class="brow right"></div>
+    <div class="eye left"></div>
+    <div class="eye right"></div>
+    <div class="tear"></div>
+    <div class="tear two"></div>
+    <div class="mouth"></div>
+  </div>
+  <div class="puddle"></div>
+
+  <h1>Ei voittoa,<br>koita ihmeessä uudestaan!</h1>
+</div>
+
+<script>
+  const rain = document.getElementById('rain');
+  const drops = 40;
+  for (let i = 0; i < drops; i++) {
+    const d = document.createElement('span');
+    d.style.left = Math.random() * 100 + 'vw';
+    d.style.animationDuration = (0.6 + Math.random() * 0.8) + 's';
+    d.style.animationDelay = (Math.random() * 2) + 's';
+    d.style.opacity = 0.2 + Math.random() * 0.4;
+    rain.appendChild(d);
+  }
+</script>
+
+</body>
+</html>
