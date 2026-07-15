@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ei onnea</title>
+<style>
+  :root{
+    --bg-top:#2b2140;
+    --bg-bottom:#120c1e;
+    --stone:#5b5170;
+    --stone-dark:#3f3856;
+    --water:#2b4a63;
+    --water-light:#3f6d8c;
+    --text:#f4eefc;
+    --accent:#ffcf5c;
+  }
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;
+    height:100%;
+    background:linear-gradient(180deg,var(--bg-top),var(--bg-bottom));
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    overflow:hidden;
+  }
+  body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+    position:relative;
+  }
+
+  .scene{
+    position:relative;
+    z-index:2;
+    text-align:center;
+    padding:0 6vw;
+    animation:rise 0.7s ease-out both;
+  }
+  @keyframes rise{
+    from{ opacity:0; transform:translateY(18px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  /* the well */
+  .well{
+    position:relative;
+    width:160px;
+    height:120px;
+    margin:0 auto;
+  }
+  .roof{
+    position:absolute;
+    top:-14px;
+    left:50%;
+    transform:translateX(-50%);
+    width:0;
+    height:0;
+    border-left:56px solid transparent;
+    border-right:56px solid transparent;
+    border-bottom:26px solid var(--stone-dark);
+  }
+  .post{
+    position:absolute;
+    top:2px;
+    width:8px;
+    height:44px;
+    background:var(--stone-dark);
+    border-radius:2px;
+  }
+  .post.left{ left:14px; }
+  .post.right{ right:14px; }
+
+  .rim{
+    position:absolute;
+    top:36px;
+    left:0;
+    right:0;
+    height:60px;
+    background:var(--stone);
+    border-radius:16px;
+    box-shadow:inset 0 6px 12px rgba(0,0,0,0.35);
+  }
+  .rim::before{
+    content:"";
+    position:absolute;
+    top:-10px;
+    left:6px;
+    right:6px;
+    height:22px;
+    background:var(--water);
+    border-radius:50%;
+  }
+
+  .well-water{
+    position:absolute;
+    top:29px;
+    left:14px;
+    right:14px;
+    height:14px;
+    background:var(--water-light);
+    border-radius:50%;
+    overflow:hidden;
+    animation:shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer{
+    0%,100%{ opacity:0.85; }
+    50%{ opacity:1; }
+  }
+
+  /* ripple rings on the water */
+  .ripple{
+    position:absolute;
+    top:29px;
+    left:50%;
+    width:14px;
+    height:14px;
+    border:2px solid rgba(244,238,252,0.55);
+    border-radius:50%;
+    transform:translate(-50%,0) scale(0);
+    animation:ripple-out 2.6s ease-out infinite;
+  }
+  .ripple.two{ animation-delay:0.9s; }
+  .ripple.three{ animation-delay:1.8s; }
+  @keyframes ripple-out{
+    0%{ transform:translate(-50%,0) scale(0.3); opacity:0.9; width:14px; height:6px; }
+    100%{ transform:translate(-50%,0) scale(3.4); opacity:0; width:14px; height:6px; }
+  }
+
+  /* the sinking coin */
+  .coin{
+    position:absolute;
+    left:50%;
+    top:-30px;
+    width:16px;
+    height:16px;
+    margin-left:-8px;
+    background:var(--accent);
+    border-radius:50%;
+    border:2px solid #caa23f;
+    animation:sink 2.6s ease-in infinite;
+  }
+  @keyframes sink{
+    0%{ top:-30px; opacity:1; transform:scaleX(1); }
+    55%{ top:32px; opacity:1; transform:scaleX(0.6); }
+    62%{ opacity:0.6; transform:scaleX(1.4) scaleY(0.4); }
+    70%,100%{ top:32px; opacity:0; transform:scaleX(0.6); }
+  }
+
+  h1{
+    margin:34px 0 6px;
+    color:var(--text);
+    font-size:clamp(1.4rem, 5.2vw, 2.4rem);
+    font-weight:800;
+    letter-spacing:-0.01em;
+    line-height:1.2;
+  }
+
+  .sub{
+    margin:6px 0 0;
+    color:#b9a9d6;
+    font-size:clamp(0.85rem, 2.6vw, 1rem);
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="well">
+    <div class="roof"></div>
+    <div class="post left"></div>
+    <div class="post right"></div>
+    <div class="rim">
+      <div class="well-water"></div>
+      <div class="ripple"></div>
+      <div class="ripple two"></div>
+      <div class="ripple three"></div>
+    </div>
+    <div class="coin"></div>
+  </div>
+
+  <h1>Ei onnea tällä kertaa,<br>mutta yritä ihmeessä uudestaan!</h1>
+  <p class="sub">Kaivo nielaisi kolikkosi... 🪙</p>
+</div>
+
+</body>
+</html>
